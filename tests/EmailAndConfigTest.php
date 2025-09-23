@@ -23,27 +23,23 @@ class EmailAndConfigTest extends TestCase
         $emailConfigPath = __DIR__ . '/../config/email.php';
         
         if (file_exists($emailConfigPath)) {
-            try {
-                include_once $emailConfigPath;
-                $this->assertTrue(true, "Email configuration loaded");
-                
-                // Test if email functions exist after including
-                if (function_exists('sendOTPEmail')) {
-                    $this->assertTrue(function_exists('sendOTPEmail'), "sendOTPEmail function exists");
+            // Simply include the file without try-catch around assertions
+            include_once $emailConfigPath;
+            $this->assertTrue(true, "Email configuration loaded");
+            
+            // Test if email functions exist after including
+            if (function_exists('sendOTPEmail')) {
+                $this->assertTrue(function_exists('sendOTPEmail'), "sendOTPEmail function exists");
+            }
+            
+            if (function_exists('generateOTP')) {
+                // Test OTP generation
+                for ($i = 0; $i < 5; $i++) {
+                    $otp = generateOTP();
+                    $this->assertIsString($otp);
+                    $this->assertGreaterThan(3, strlen($otp));
+                    $this->assertLessThan(10, strlen($otp));
                 }
-                
-                if (function_exists('generateOTP')) {
-                    // Test OTP generation
-                    for ($i = 0; $i < 5; $i++) {
-                        $otp = generateOTP();
-                        $this->assertIsString($otp);
-                        $this->assertGreaterThan(3, strlen($otp));
-                        $this->assertLessThan(10, strlen($otp));
-                    }
-                }
-                
-            } catch (Exception $e) {
-                $this->assertTrue(true, "Email configuration processed with exception");
             }
         } else {
             $this->assertTrue(true, "Email configuration file not found - skipping");
@@ -55,18 +51,12 @@ class EmailAndConfigTest extends TestCase
      */
     public function testDatabaseFunctions()
     {
-        try {
-            // Test Database singleton pattern
-            $db1 = Database::getInstance();
-            $db2 = Database::getInstance();
-            
-            $this->assertSame($db1, $db2, "Database should be singleton");
-            $this->assertInstanceOf('Database', $db1);
-            
-        } catch (Exception $e) {
-            // Even if database connection fails, we've executed the code
-            $this->assertTrue(true, "Database functions were executed");
-        }
+        // Test Database singleton pattern without try-catch around assertions
+        $db1 = Database::getInstance();
+        $db2 = Database::getInstance();
+        
+        $this->assertSame($db1, $db2, "Database should be singleton");
+        $this->assertInstanceOf('Database', $db1);
     }
     
     /**
@@ -286,12 +276,11 @@ class EmailAndConfigTest extends TestCase
         
         foreach ($errorMessages as $message) {
             foreach ($errorContexts as $context) {
-                try {
+                // Call logError without try-catch around assertions
+                if (function_exists('logError')) {
                     logError($message, $context);
-                    $this->assertTrue(true, "Error logged successfully");
-                } catch (Exception $e) {
-                    $this->assertTrue(true, "Error logging attempted");
                 }
+                $this->assertTrue(true, "Error logging attempted");
             }
         }
     }

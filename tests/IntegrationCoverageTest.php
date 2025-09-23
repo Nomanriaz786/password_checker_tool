@@ -48,37 +48,35 @@ class IntegrationCoverageTest extends TestCase
             
             ob_start();
             
-            try {
-                // Include the actual password check file to execute all its functions
-                include __DIR__ . '/../password/check.php';
-                $output = ob_get_contents();
+            // Include the actual password check file to execute all its functions
+            // Note: Removed try-catch around assertions to fix SonarCloud reliability issues
+            include __DIR__ . '/../password/check.php';
+            $output = ob_get_contents();
+            
+            // Verify we get JSON output
+            $this->assertNotEmpty($output, "Should get output for password: '$password'");
+            
+            $decoded = json_decode($output, true);
+            if ($decoded !== null) {
+                $this->assertIsArray($decoded, "Should get valid JSON for password: '$password'");
                 
-                // Verify we get JSON output
-                $this->assertNotEmpty($output, "Should get output for password: '$password'");
-                
-                $decoded = json_decode($output, true);
-                if ($decoded !== null) {
-                    $this->assertIsArray($decoded, "Should get valid JSON for password: '$password'");
+                if (isset($decoded['success'])) {
+                    $this->assertIsBool($decoded['success'], "Success should be boolean");
                     
-                    if (isset($decoded['success'])) {
-                        $this->assertIsBool($decoded['success'], "Success should be boolean");
-                        
-                        if ($decoded['success'] && isset($decoded['result'])) {
-                            $result = $decoded['result'];
-                            $this->assertIsArray($result);
-                            $this->assertArrayHasKey('score', $result);
-                            $this->assertArrayHasKey('strength_level', $result);
-                        }
+                    if ($decoded['success'] && isset($decoded['result'])) {
+                        $result = $decoded['result'];
+                        $this->assertIsArray($result);
+                        $this->assertArrayHasKey('score', $result);
+                        $this->assertArrayHasKey('strength_level', $result);
                     }
                 }
-                
-            } catch (Exception $e) {
-                // Even if there are errors, we've executed the code
-                $this->assertTrue(true, "Code was executed for password: '$password'");
-            } finally {
-                ob_end_clean();
             }
+            
+            ob_end_clean();
         }
+        
+        $this->assertTrue(true, "Password check API integration test completed");
+    }
         
         $this->assertTrue(true, "Password check API integration test completed");
     }
@@ -96,23 +94,18 @@ class IntegrationCoverageTest extends TestCase
             
             ob_start();
             
-            try {
-                // Include the actual suggestion file
-                include __DIR__ . '/../password/suggest.php';
-                $output = ob_get_contents();
-                
-                $this->assertNotEmpty($output, "Should get output for suggestion: '$password'");
-                
-                $decoded = json_decode($output, true);
-                if ($decoded !== null) {
-                    $this->assertIsArray($decoded, "Should get valid JSON for suggestion: '$password'");
-                }
-                
-            } catch (Exception $e) {
-                $this->assertTrue(true, "Code was executed for suggestion: '$password'");
-            } finally {
-                ob_end_clean();
+            // Include the actual suggestion file without try-catch around assertions
+            include __DIR__ . '/../password/suggest.php';
+            $output = ob_get_contents();
+            
+            $this->assertNotEmpty($output, "Should get output for suggestion: '$password'");
+            
+            $decoded = json_decode($output, true);
+            if ($decoded !== null) {
+                $this->assertIsArray($decoded, "Should get valid JSON for suggestion: '$password'");
             }
+            
+            ob_end_clean();
         }
         
         $this->assertTrue(true, "Password suggestion API integration test completed");
@@ -124,26 +117,21 @@ class IntegrationCoverageTest extends TestCase
     public function testConfigurationFiles()
     {
         // Test that we can include config files without errors
-        try {
-            // This will execute all the code in db.php including function definitions
-            include_once __DIR__ . '/../config/db.php';
-            $this->assertTrue(true, "config/db.php loaded successfully");
-            
-            // Test that constants are defined
-            $this->assertTrue(defined('MAX_PASSWORD_LENGTH'), "MAX_PASSWORD_LENGTH should be defined");
-            $this->assertTrue(defined('MIN_PASSWORD_LENGTH'), "MIN_PASSWORD_LENGTH should be defined");
-            $this->assertTrue(defined('SESSION_LIFETIME'), "SESSION_LIFETIME should be defined");
-            
-            // Test function existence
-            $this->assertTrue(function_exists('sanitizeInput'), "sanitizeInput function should exist");
-            $this->assertTrue(function_exists('generateCSRFToken'), "generateCSRFToken function should exist");
-            $this->assertTrue(function_exists('validateCSRFToken'), "validateCSRFToken function should exist");
-            $this->assertTrue(function_exists('getClientIP'), "getClientIP function should exist");
-            $this->assertTrue(function_exists('logError'), "logError function should exist");
-            
-        } catch (Exception $e) {
-            $this->assertTrue(true, "Config files were processed");
-        }
+        // This will execute all the code in db.php including function definitions
+        include_once __DIR__ . '/../config/db.php';
+        $this->assertTrue(true, "config/db.php loaded successfully");
+        
+        // Test that constants are defined
+        $this->assertTrue(defined('MAX_PASSWORD_LENGTH'), "MAX_PASSWORD_LENGTH should be defined");
+        $this->assertTrue(defined('MIN_PASSWORD_LENGTH'), "MIN_PASSWORD_LENGTH should be defined");
+        $this->assertTrue(defined('SESSION_LIFETIME'), "SESSION_LIFETIME should be defined");
+        
+        // Test function existence
+        $this->assertTrue(function_exists('sanitizeInput'), "sanitizeInput function should exist");
+        $this->assertTrue(function_exists('generateCSRFToken'), "generateCSRFToken function should exist");
+        $this->assertTrue(function_exists('validateCSRFToken'), "validateCSRFToken function should exist");
+        $this->assertTrue(function_exists('getClientIP'), "getClientIP function should exist");
+        $this->assertTrue(function_exists('logError'), "logError function should exist");
     }
     
     /**
@@ -173,16 +161,12 @@ class IntegrationCoverageTest extends TestCase
                 
                 ob_start();
                 
-                try {
-                    // Include the file to execute its code
-                    include $filePath;
-                    $output = ob_get_contents();
-                    $this->assertTrue(true, "Auth file $file was processed");
-                } catch (Exception $e) {
-                    $this->assertTrue(true, "Auth file $file was executed (with errors)");
-                } finally {
-                    ob_end_clean();
-                }
+                // Include the file to execute its code without try-catch around assertions
+                include $filePath;
+                $output = ob_get_contents();
+                $this->assertTrue(true, "Auth file $file was processed");
+                
+                ob_end_clean();
             }
         }
     }
@@ -211,15 +195,12 @@ class IntegrationCoverageTest extends TestCase
                 
                 ob_start();
                 
-                try {
-                    include $filePath;
-                    $output = ob_get_contents();
-                    $this->assertTrue(true, "Admin file $file was processed");
-                } catch (Exception $e) {
-                    $this->assertTrue(true, "Admin file $file was executed");
-                } finally {
-                    ob_end_clean();
-                }
+                // Remove try-catch around assertions
+                include $filePath;
+                $output = ob_get_contents();
+                $this->assertTrue(true, "Admin file $file was processed");
+                
+                ob_end_clean();
             }
         }
     }
@@ -245,15 +226,12 @@ class IntegrationCoverageTest extends TestCase
                 
                 ob_start();
                 
-                try {
-                    include $filePath;
-                    $output = ob_get_contents();
-                    $this->assertTrue(true, "Main file $file was processed");
-                } catch (Exception $e) {
-                    $this->assertTrue(true, "Main file $file was executed");
-                } finally {
-                    ob_end_clean();
-                }
+                // Remove try-catch around assertions
+                include $filePath;
+                $output = ob_get_contents();
+                $this->assertTrue(true, "Main file $file was processed");
+                
+                ob_end_clean();
             }
         }
     }
