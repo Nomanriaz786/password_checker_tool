@@ -5,6 +5,17 @@
  */
 
 /**
+ * Generate a cryptographic nonce for CSP
+ * @return string Base64-encoded nonce
+ */
+function generateCSPNonce() {
+    if (!isset($_SESSION['csp_nonce'])) {
+        $_SESSION['csp_nonce'] = base64_encode(random_bytes(32));
+    }
+    return $_SESSION['csp_nonce'];
+}
+
+/**
  * Apply security headers to all responses
  * This function should be called at the beginning of all PHP files
  */
@@ -12,8 +23,29 @@ function applySecurityHeaders() {
     // Only apply headers if not already sent
     if (!headers_sent()) {
         
+        // Generate nonce for this request
+        $nonce = generateCSPNonce();
+        
         // Content Security Policy (CSP) - Prevents XSS and code injection
-        header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self'; media-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self';");
+        // More restrictive policy with specific allowed sources
+        $csp = "default-src 'self'; " .
+               "script-src 'self' 'unsafe-inline' 'nonce-$nonce'; " . // Allow nonce-based inline scripts
+               "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; " . // Allow FontAwesome CSS
+               "font-src 'self' https://cdnjs.cloudflare.com; " . // Allow FontAwesome fonts
+               "img-src 'self' data: https:; " .
+               "connect-src 'self'; " .
+               "media-src 'self'; " .
+               "object-src 'none'; " .
+               "child-src 'none'; " .
+               "frame-src 'none'; " .
+               "worker-src 'none'; " .
+               "manifest-src 'self'; " .
+               "form-action 'self'; " . // Restrict form submissions
+               "frame-ancestors 'none'; " . // Additional clickjacking protection
+               "base-uri 'self'; " . // Restrict base element
+               "upgrade-insecure-requests"; // Force HTTPS when available
+        
+        header("Content-Security-Policy: $csp");
         
         // X-Frame-Options - Anti-clickjacking protection
         header("X-Frame-Options: DENY");
@@ -28,7 +60,16 @@ function applySecurityHeaders() {
         header("Referrer-Policy: strict-origin-when-cross-origin");
         
         // Permissions-Policy - Feature policy for modern browsers
-        header("Permissions-Policy: geolocation=(), microphone=(), camera=(), fullscreen=(self), payment=()");
+        header("Permissions-Policy: geolocation=(), microphone=(), camera=(), fullscreen=(self), payment=(), usb=(), serial=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=(), ambient-light-sensor=()");
+        
+        // Cross-Origin-Embedder-Policy - Helps against Spectre attacks
+        header("Cross-Origin-Embedder-Policy: require-corp");
+        
+        // Cross-Origin-Opener-Policy - Isolates browsing context
+        header("Cross-Origin-Opener-Policy: same-origin");
+        
+        // Cross-Origin-Resource-Policy - Controls cross-origin resource sharing
+        header("Cross-Origin-Resource-Policy: same-site");
         
         // Strict-Transport-Security - HTTPS enforcement (only if using HTTPS)
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
