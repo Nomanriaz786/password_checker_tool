@@ -1,3 +1,17 @@
+/**
+ * Password Strength Evaluation API
+ * 
+ * This script evaluates password strength using multiple criteria:
+ * - Length and character variety
+ * - Entropy calculation
+ * - Pattern detection (sequences, repetition, keyboard patterns)
+ * - Dictionary/common password checking
+ * - Crack time estimation
+ * 
+ * @author DevSecOps Team
+ * @version 1.0
+ */
+
 <?php
 require_once '../config/db.php';
 
@@ -11,8 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $password = $_POST['password'] ?? '';
 
+// Validate and sanitize input
 if (empty($password)) {
     echo json_encode(['success' => false, 'message' => 'Password is required']);
+    exit;
+}
+
+// Additional input validation for security
+$password = trim($password);
+if (!is_string($password)) {
+    echo json_encode(['success' => false, 'message' => 'Invalid password format']);
     exit;
 }
 
@@ -36,6 +58,12 @@ try {
     echo json_encode(['success' => false, 'message' => 'Error evaluating password']);
 }
 
+/**
+ * Evaluates password strength using comprehensive criteria
+ * 
+ * @param string $password The password to evaluate
+ * @return array Detailed evaluation results including score, feedback, and suggestions
+ */
 function evaluatePasswordStrength($password) {
     $length = strlen($password);
     

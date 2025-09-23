@@ -12,10 +12,22 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $current_password = $_POST['current_password'] ?? '';
 $requirements = $_POST['requirements'] ?? [];
 
-// Validate input
+// Validate and sanitize input
 if (empty($current_password)) {
     echo json_encode(['success' => false, 'message' => 'Current password is required']);
     exit;
+}
+
+// Additional input validation for security
+$current_password = trim($current_password);
+if (!is_string($current_password)) {
+    echo json_encode(['success' => false, 'message' => 'Invalid password format']);
+    exit;
+}
+
+// Validate requirements array
+if (!is_array($requirements)) {
+    $requirements = [];
 }
 
 try {

@@ -28,7 +28,7 @@
         }
     },
     "scripts": {
-        "test": "phpunit",
+        "test": "php tests/basic_tests.php",
         "phpcs": "phpcs --standard=PSR12 --extensions=php --ignore=vendor/ .",
         "phpcbf": "phpcbf --standard=PSR12 --extensions=php --ignore=vendor/ .",
         "security-check": "security-checker security:check composer.lock"
