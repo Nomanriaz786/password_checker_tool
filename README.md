@@ -156,12 +156,6 @@ define('BASE_URL', 'https://your-domain.com/password-checker');
 
 For comprehensive security analysis and CI/CD integration with SonarCloud:
 
-#### SonarCloud Integration (Recommended)
-```powershell
-# Quick setup with PowerShell
-.\setup-sonarcloud.ps1 -Organization "your-github-org" -ProjectKey "your-org_password-checker-tool"
-```
-
 #### GitHub Actions Setup
 1. Add repository secrets:
    - `SONAR_TOKEN`: Your SonarCloud project token
