@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/bootstrap.php"
+         colors="true"
+         verbose="true"
+         testdox="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    
+    <testsuites>
+        <testsuite name="Password Checker Test Suite">
+            <directory>tests</directory>
+            <exclude>tests/bootstrap.php</exclude>
+            <exclude>tests/basic_tests.php</exclude>
+            <exclude>tests/PasswordCheckerTest.php</exclude>
+        </testsuite>
+    </testsuites>
+    
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./</directory>
+        </include>
+        <exclude>
+            <directory>vendor/</directory>
+            <directory>tests/</directory>
+            <directory>logs/</directory>
+            <directory>.github/</directory>
+            <file>phpinfo.php</file>
+        </exclude>
+        <report>
+            <clover outputFile="coverage/coverage.xml"/>
+            <html outputDirectory="coverage/html"/>
+            <text outputFile="coverage/coverage.txt"/>
+        </report>
+    </coverage>
+    
+    <logging>
+        <junit outputFile="coverage/junit.xml"/>
+    </logging>
+</phpunit>
