@@ -206,12 +206,12 @@ class ComprehensiveCoverageTest extends TestCase
         // Test logging function exists
         $this->assertTrue(function_exists('logError'));
         
-        // Test error logging (should not throw)
-        try {
+        // Test error logging (should not throw) - fixed SonarCloud reliability issue
+        if (function_exists('logError')) {
             logError('Test error message', ['context' => 'test']);
-            $this->assertTrue(true); // If we get here, no exception was thrown
-        } catch (Exception $e) {
-            $this->fail('logError function should not throw exceptions');
+            $this->assertTrue(true); // Function executed without exception
+        } else {
+            $this->fail('logError function should exist');
         }
         
         // Test type checking

@@ -49,17 +49,14 @@ class PasswordCheckerTest
         echo "📁 Database Tests\n";
         echo "-----------------\n";
         
-        try {
-            $db = Database::getInstance();
-            self::assertTrue($db !== null, "Database instance creation");
-            
-            // Test database constants
-            self::assertTrue(defined('MAX_PASSWORD_LENGTH'), "MAX_PASSWORD_LENGTH constant defined");
-            self::assertTrue(MAX_PASSWORD_LENGTH > 0, "MAX_PASSWORD_LENGTH is positive");
-            
-        } catch (Exception $e) {
-            self::assertTrue(false, "Database connection: " . $e->getMessage());
-        }
+        // Fixed SonarCloud reliability issue - removed try-catch around assertions
+        $db = Database::getInstance();
+        self::assertTrue($db !== null, "Database instance creation");
+        
+        // Test database constants
+        self::assertTrue(defined('MAX_PASSWORD_LENGTH'), "MAX_PASSWORD_LENGTH constant defined");
+        self::assertTrue(MAX_PASSWORD_LENGTH > 0, "MAX_PASSWORD_LENGTH is positive");
+        
         echo "\n";
     }
     
