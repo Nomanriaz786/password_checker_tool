@@ -11,10 +11,10 @@
     
     <testsuites>
         <testsuite name="Password Checker Test Suite">
-            <directory>tests</directory>
-            <exclude>tests/bootstrap.php</exclude>
-            <exclude>tests/basic_tests.php</exclude>
-            <exclude>tests/PasswordCheckerTest.php</exclude>
+            <file>tests/PasswordStrengthTest.php</file>
+            <file>tests/BasicCoverageTest.php</file>
+            <file>tests/IntegrationCoverageTest.php</file>
+            <file>tests/EmailAndConfigTest.php</file>
         </testsuite>
     </testsuites>
     
