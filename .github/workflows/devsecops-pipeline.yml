@@ -87,7 +87,7 @@ jobs:
         # Additional arguments can be passed here
         args: >
           -Dsonar.projectKey=Nomanriaz786_password_checker_tool
-          -Dsonar.organization=Nomanriaz786
+          -Dsonar.organization=nomanriaz786
           -Dsonar.php.coverage.reportPaths=coverage/coverage.xml
           -Dsonar.sources=.
           -Dsonar.exclusions=**/vendor/**,**/*.min.js,**/*.min.css,logs/**,**/*.log
