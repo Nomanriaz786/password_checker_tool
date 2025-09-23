@@ -33,7 +33,7 @@ jobs:
         tools: composer
         
     - name: Cache Composer Dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.composer/cache/files
         key: dependencies-composer-${{ hashFiles('composer.json') }}
@@ -141,7 +141,7 @@ jobs:
       continue-on-error: true
         
     - name: Upload Security Reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: security-reports
         path: |
