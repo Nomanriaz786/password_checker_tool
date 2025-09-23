@@ -4,6 +4,9 @@
  * Password Strength Checker Web App
  */
 
+// Include security headers first
+require_once __DIR__ . '/security_headers.php';
+
 // Database configuration constants
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'password_checker');
@@ -92,28 +95,17 @@ class Database {
     }
 }
 
-// Initialize session configuration
+// Initialize session configuration with enhanced security
 function initializeSession() {
     if (session_status() === PHP_SESSION_NONE) {
-        // Secure session configuration
-        ini_set('session.cookie_httponly', 1);
-        ini_set('session.use_only_cookies', 1);
-        ini_set('session.cookie_secure', 0); // Set to 1 if using HTTPS
-        ini_set('session.gc_maxlifetime', SESSION_LIFETIME);
-        
-        session_start();
-        
-        // Regenerate session ID on login to prevent session fixation
-        if (!isset($_SESSION['initiated'])) {
-            session_regenerate_id(true);
-            $_SESSION['initiated'] = true;
-        }
+        // Use the secure session initialization from security_headers.php
+        initializeSecureEnvironment();
         
         // Check for session timeout
         if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > SESSION_LIFETIME)) {
             session_unset();
             session_destroy();
-            session_start();
+            initializeSecureEnvironment(); // Restart with secure settings
         }
         $_SESSION['last_activity'] = time();
     }

@@ -1,0 +1,102 @@
+<?php
+/**
+ * Security Headers Configuration
+ * Implements comprehensive security headers to protect against common web vulnerabilities
+ */
+
+/**
+ * Apply security headers to all responses
+ * This function should be called at the beginning of all PHP files
+ */
+function applySecurityHeaders() {
+    // Only apply headers if not already sent
+    if (!headers_sent()) {
+        
+        // Content Security Policy (CSP) - Prevents XSS and code injection
+        header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self'; media-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self';");
+        
+        // X-Frame-Options - Anti-clickjacking protection
+        header("X-Frame-Options: DENY");
+        
+        // X-Content-Type-Options - Prevents MIME type sniffing
+        header("X-Content-Type-Options: nosniff");
+        
+        // X-XSS-Protection - XSS filtering (legacy but still useful)
+        header("X-XSS-Protection: 1; mode=block");
+        
+        // Referrer-Policy - Controls referrer information
+        header("Referrer-Policy: strict-origin-when-cross-origin");
+        
+        // Permissions-Policy - Feature policy for modern browsers
+        header("Permissions-Policy: geolocation=(), microphone=(), camera=(), fullscreen=(self), payment=()");
+        
+        // Strict-Transport-Security - HTTPS enforcement (only if using HTTPS)
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+            header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
+        }
+        
+        // Remove server information leakage
+        header_remove("X-Powered-By");
+        header_remove("Server");
+        
+        // Cache-Control for sensitive pages
+        $is_sensitive_page = strpos($_SERVER['REQUEST_URI'], 'auth/') !== false || 
+                           strpos($_SERVER['REQUEST_URI'], 'admin/') !== false ||
+                           strpos($_SERVER['REQUEST_URI'], 'dashboard') !== false;
+        
+        if ($is_sensitive_page) {
+            header("Cache-Control: no-cache, no-store, must-revalidate, private");
+            header("Pragma: no-cache");
+            header("Expires: 0");
+        }
+    }
+}
+
+/**
+ * Set secure cookie parameters
+ * Call this before starting session or setting cookies
+ */
+function setSecureCookieParams() {
+    // Set secure cookie parameters
+    $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on';
+    
+    ini_set('session.cookie_httponly', 1);
+    ini_set('session.use_only_cookies', 1);
+    ini_set('session.cookie_secure', $secure ? 1 : 0);
+    ini_set('session.cookie_samesite', 'Strict');
+    ini_set('session.gc_maxlifetime', SESSION_LIFETIME);
+    
+    // Set additional secure session settings
+    ini_set('session.use_strict_mode', 1);
+    ini_set('session.hash_function', 'sha256');
+    ini_set('session.hash_bits_per_character', 6);
+}
+
+/**
+ * Apply headers and start secure session
+ * Convenience function for common initialization
+ */
+function initializeSecureEnvironment() {
+    // Apply security headers first
+    applySecurityHeaders();
+    
+    // Set secure cookie parameters
+    setSecureCookieParams();
+    
+    // Start session if not already started
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
+    // Regenerate session ID periodically for security
+    if (!isset($_SESSION['last_regeneration'])) {
+        $_SESSION['last_regeneration'] = time();
+    } else if (time() - $_SESSION['last_regeneration'] > 300) { // 5 minutes
+        session_regenerate_id(true);
+        $_SESSION['last_regeneration'] = time();
+    }
+}
+
+// Auto-apply security headers when this file is included
+applySecurityHeaders();
+?>
