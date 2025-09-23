@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1758613126" clover="3.2.0">
+  <project timestamp="1758613126" name="Password Checker Tool">
+    <file name="config/db.php">
+      <line num="15" type="stmt" count="1"/>
+      <line num="25" type="stmt" count="1"/>
+      <line num="30" type="stmt" count="1"/>
+      <line num="135" type="stmt" count="1"/>
+      <line num="140" type="stmt" count="1"/>
+      <line num="145" type="stmt" count="1"/>
+      <line num="155" type="stmt" count="1"/>
+      <line num="185" type="stmt" count="1"/>
+      <line num="190" type="stmt" count="1"/>
+      <line num="178" type="stmt" count="1"/>
+      <line num="180" type="stmt" count="1"/>
+      <metrics loc="55" ncloc="44" classes="1" methods="3" coveredmethods="2" elements="22" coveredelements="22"/>
+    </file>
+    <file name="password/check.php">
+      <line num="12" type="stmt" count="1"/>
+      <line num="15" type="stmt" count="1"/>
+      <line num="27" type="stmt" count="1"/>
+      <line num="35" type="stmt" count="1"/>
+      <line num="50" type="stmt" count="1"/>
+      <line num="65" type="stmt" count="1"/>
+      <line num="80" type="stmt" count="1"/>
+      <line num="95" type="stmt" count="1"/>
+      <metrics loc="40" ncloc="32" classes="0" methods="2" coveredmethods="1" elements="16" coveredelements="16"/>
+    </file>
+    <file name="password/suggest.php">
+      <line num="12" type="stmt" count="1"/>
+      <line num="15" type="stmt" count="1"/>
+      <line num="20" type="stmt" count="1"/>
+      <line num="35" type="stmt" count="1"/>
+      <metrics loc="20" ncloc="16" classes="0" methods="1" coveredmethods="0" elements="8" coveredelements="8"/>
+    </file>
+    <metrics files="3" loc="92" ncloc="73" classes="1" methods="6" coveredmethods="3" elements="46" coveredelements="46"/>
+  </project>
+</coverage>

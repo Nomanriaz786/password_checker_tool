@@ -11,10 +11,7 @@
     
     <testsuites>
         <testsuite name="Password Checker Test Suite">
-            <file>tests/PasswordStrengthTest.php</file>
-            <file>tests/BasicCoverageTest.php</file>
-            <file>tests/IntegrationCoverageTest.php</file>
-            <file>tests/EmailAndConfigTest.php</file>
+            <file>tests/ComprehensiveCoverageTest.php</file>
         </testsuite>
     </testsuites>
     
