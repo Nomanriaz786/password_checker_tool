@@ -1,0 +1,45 @@
+{
+    "name": "password-checker-tool/web-application",
+    "description": "Secure Password Strength Checker with DevSecOps Implementation",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "DevSecOps Team",
+            "email": "team@example.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "squizlabs/php_codesniffer": "^3.7",
+        "sensiolabs/security-checker": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PasswordChecker\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PasswordChecker\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "phpcs": "phpcs --standard=PSR12 --extensions=php --ignore=vendor/ .",
+        "phpcbf": "phpcbf --standard=PSR12 --extensions=php --ignore=vendor/ .",
+        "security-check": "security-checker security:check composer.lock"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

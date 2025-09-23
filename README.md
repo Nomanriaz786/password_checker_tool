@@ -41,7 +41,8 @@ A comprehensive, secure web-based password strength analysis tool built with PHP
 - **MySQL**: 8.0 or higher (or MariaDB 10.4+)
 - **Web Server**: Apache 2.4+ or Nginx 1.18+
 - **Extensions**: PDO, PDO_MySQL, OpenSSL, JSON
-- **DevSecOps**: Docker, Docker Compose (for SonarQube integration)
+- **Composer**: For PHP dependency management
+- **Git**: For version control (required for SonarCloud)
 - **CI/CD**: GitHub Actions enabled repository
 
 ## 🛠️ Installation

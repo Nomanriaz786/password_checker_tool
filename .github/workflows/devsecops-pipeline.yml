@@ -12,7 +12,6 @@ on:
 
 env:
   PHP_VERSION: '8.2'
-  NODE_VERSION: '18'
 
 jobs:
   sonarcloud:
@@ -33,12 +32,6 @@ jobs:
         coverage: xdebug
         tools: composer
         
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        
     - name: Cache Composer Dependencies
       uses: actions/cache@v3
       with:
@@ -46,15 +39,11 @@ jobs:
         key: dependencies-composer-${{ hashFiles('composer.json') }}
         restore-keys: dependencies-composer-
         
-    - name: Install Dependencies
+    - name: Install PHP Dependencies
       run: |
-        # PHP dependencies
+        # Install PHP dependencies
         composer install --no-interaction --prefer-dist --optimize-autoloader
         composer require --dev phpunit/phpunit squizlabs/php_codesniffer
-        
-        # Node.js dependencies for frontend security
-        npm ci
-        npm install --save-dev eslint eslint-plugin-security
         
     - name: Create Test Database
       run: |
@@ -62,7 +51,7 @@ jobs:
         mysql -uroot -proot -e "CREATE DATABASE password_checker_test;"
         mysql -uroot -proot password_checker_test < password_checker.sql
         
-    - name: Run Security Tests
+    - name: Run PHP Security Tests
       run: |
         # PHP syntax validation
         find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
@@ -70,13 +59,12 @@ jobs:
         # PHP_CodeSniffer security analysis
         ./vendor/bin/phpcs --standard=PSR12 --extensions=php --ignore=vendor/ . || true
         
-        # JavaScript security linting
-        npx eslint assets/js/ --ext .js || true
-        
         # PHP security checks
-        echo "Checking for common security issues..."
+        echo "Checking for common PHP security issues..."
         grep -r "eval(" . --include="*.php" --exclude-dir=vendor || echo "✅ No eval() usage found"
         grep -r "\$_GET\|\$_POST\|\$_REQUEST" . --include="*.php" --exclude-dir=vendor | grep -v "htmlspecialchars\|filter_" || echo "✅ Input validation checks completed"
+        grep -r "mysql_query\|mysql_connect" . --include="*.php" --exclude-dir=vendor || echo "✅ No deprecated MySQL functions found"
+        grep -r "shell_exec\|exec\|system\|passthru" . --include="*.php" --exclude-dir=vendor || echo "✅ No dangerous system functions found"
         
     - name: Generate Test Coverage
       run: |
@@ -98,11 +86,11 @@ jobs:
       with:
         # Additional arguments can be passed here
         args: >
-          -Dsonar.projectKey=your-org_password-checker-tool
-          -Dsonar.organization=your-sonarcloud-org
-          -Dsonar.python.coverage.reportPaths=coverage/coverage.xml
+          -Dsonar.projectKey=Nomanriaz786_password-checker-tool
+          -Dsonar.organization=Nomanriaz786
+          -Dsonar.php.coverage.reportPaths=coverage/coverage.xml
           -Dsonar.sources=.
-          -Dsonar.exclusions=**/vendor/**,**/node_modules/**,**/*.min.js,**/*.min.css,logs/**,**/*.log
+          -Dsonar.exclusions=**/vendor/**,**/*.min.js,**/*.min.css,logs/**,**/*.log
           -Dsonar.php.version=8.2
           -Dsonar.security.hotspots.inheritFromParent=true
           -Dsonar.qualitygate.wait=true
@@ -162,7 +150,7 @@ jobs:
         echo "- **Baseline Security**: Scan completed" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "### 📊 View Results" >> $GITHUB_STEP_SUMMARY
-        echo "- [SonarCloud Dashboard](https://sonarcloud.io/project/overview?id=your-org_password-checker-tool)" >> $GITHUB_STEP_SUMMARY
+        echo "- [SonarCloud Dashboard](https://sonarcloud.io/project/overview?id=Nomanriaz786_password-checker-tool)" >> $GITHUB_STEP_SUMMARY
         echo "- [GitHub Security Tab](https://github.com/${{ github.repository }}/security)" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "### 🎯 Next Steps" >> $GITHUB_STEP_SUMMARY
