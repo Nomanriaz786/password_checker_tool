@@ -1,0 +1,30 @@
+# Simple .htaccess for XAMPP development
+# More security rules can be added for production
+
+# Deny access to sensitive files
+<Files ~ "\.(log|sql|md|txt)$">
+    Require all denied
+</Files>
+
+# Deny access to logs directory
+<FilesMatch "^logs/">
+    Require all denied
+</FilesMatch>
+
+# Basic security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Disable directory browsing
+Options -Indexes
+
+# Enable URL rewriting (if needed)
+RewriteEngine On
+
+# Prevent access to backup files
+<FilesMatch "\.(bak|backup|swp|old|tmp)$">
+    Require all denied
+</FilesMatch>
