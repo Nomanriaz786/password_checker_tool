@@ -29,9 +29,9 @@ function applySecurityHeaders() {
         // Content Security Policy (CSP) - Prevents XSS and code injection
         // More restrictive policy with specific allowed sources
         $csp = "default-src 'self'; " .
-               "script-src 'self' 'unsafe-inline' 'nonce-$nonce'; " . // Allow nonce-based inline scripts
-               "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; " . // Allow FontAwesome CSS
-               "font-src 'self' https://cdnjs.cloudflare.com; " . // Allow FontAwesome fonts
+               "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " . // Allow all inline scripts
+               "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; " . // Allow FontAwesome CSS and Google Fonts
+               "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; " . // Allow FontAwesome fonts and Google Fonts
                "img-src 'self' data: https:; " .
                "connect-src 'self'; " .
                "media-src 'self'; " .
@@ -60,7 +60,7 @@ function applySecurityHeaders() {
         header("Referrer-Policy: strict-origin-when-cross-origin");
         
         // Permissions-Policy - Feature policy for modern browsers
-        header("Permissions-Policy: geolocation=(), microphone=(), camera=(), fullscreen=(self), payment=(), usb=(), serial=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=(), ambient-light-sensor=()");
+        header("Permissions-Policy: geolocation=(), microphone=(), camera=(), fullscreen=(self), payment=(), usb=(), serial=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=()");
         
         // Cross-Origin-Embedder-Policy - Helps against Spectre attacks
         header("Cross-Origin-Embedder-Policy: require-corp");
@@ -81,9 +81,10 @@ function applySecurityHeaders() {
         header_remove("Server");
         
         // Cache-Control for sensitive pages
-        $is_sensitive_page = strpos($_SERVER['REQUEST_URI'], 'auth/') !== false || 
-                           strpos($_SERVER['REQUEST_URI'], 'admin/') !== false ||
-                           strpos($_SERVER['REQUEST_URI'], 'dashboard') !== false;
+        $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+        $is_sensitive_page = strpos($request_uri, 'auth/') !== false || 
+                           strpos($request_uri, 'admin/') !== false ||
+                           strpos($request_uri, 'dashboard') !== false;
         
         if ($is_sensitive_page) {
             header("Cache-Control: no-cache, no-store, must-revalidate, private");

@@ -194,7 +194,7 @@ function completeLogin($user, $ip_address) {
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Verifying...';
                 
-                fetch('2fa.php', {
+                fetch(window.location.pathname, {
                     method: 'POST',
                     body: formData
                 })

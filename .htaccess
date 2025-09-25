@@ -85,19 +85,19 @@ RewriteEngine On
     ExpiresByType image/gif "access plus 1 year"
 </IfModule>
 
-# Security for sensitive directories
-<Directory "*/admin/*">
+# Security for sensitive directories - Using FilesMatch instead of Directory
+<FilesMatch "admin/.*\.php$">
     <IfModule mod_headers.c>
         Header always set Cache-Control "no-cache, no-store, must-revalidate, private"
         Header always set Pragma "no-cache"
         Header always set Expires "0"
     </IfModule>
-</Directory>
+</FilesMatch>
 
-<Directory "*/auth/*">
+<FilesMatch "auth/.*\.php$">
     <IfModule mod_headers.c>
         Header always set Cache-Control "no-cache, no-store, must-revalidate, private"
         Header always set Pragma "no-cache"
         Header always set Expires "0"
     </IfModule>
-</Directory>
+</FilesMatch>

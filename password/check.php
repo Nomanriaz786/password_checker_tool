@@ -1,3 +1,4 @@
+<?php
 /**
  * Password Strength Evaluation API
  * 
@@ -11,8 +12,6 @@
  * @author DevSecOps Team
  * @version 1.0
  */
-
-<?php
 require_once '../config/db.php';
 
 header('Content-Type: application/json');

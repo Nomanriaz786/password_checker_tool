@@ -106,7 +106,7 @@ try {
             'success' => true,
             'requires_2fa' => true,
             'message' => 'Please enter the OTP sent to your email address: ' . $user['email'],
-            'redirect' => '2fa.php'
+            'redirect' => 'auth/2fa.php'
         ];
         
         // In development mode, also show OTP in logs
