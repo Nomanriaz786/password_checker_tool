@@ -65,7 +65,7 @@ The project implemented security-first development practices at key phases:
 ## 2. Introduction
 
 ### Background and Context
-In today's digital landscape, cybersecurity threats are evolving rapidly, with password-related vulnerabilities accounting for over 80% of data breaches. Traditional software development approaches often treat security as an afterthought, leading to expensive remediation efforts and increased risk exposure. Our project addresses these challenges by implementing a security-first approach using DevSecOps methodologies.
+In today's digital landscape, cybersecurity threats are evolving rapidly, with password-related vulnerabilities accounting for over 80% of data breaches [1]. Traditional software development approaches often treat security as an afterthought, leading to expensive remediation efforts and increased risk exposure [2]. Our project addresses these challenges by implementing a security-first approach using DevSecOps methodologies [3].
 
 The Password Strength Checker application serves as a practical demonstration of how security can be embedded throughout the development lifecycle while maintaining rapid delivery and high-quality code. The application provides users with advanced password analysis capabilities, including entropy calculation, dictionary attack simulation, and intelligent password generation.
 
@@ -80,13 +80,13 @@ Modern software development faces unprecedented security challenges:
 ### Overview of DevSecOps and Project Relevance
 DevSecOps represents the evolution of DevOps, integrating security practices throughout the software development lifecycle. Key principles include:
 
-**Shift Left Security**: Moving security testing earlier in the development process to identify and resolve vulnerabilities before they reach production. Our project implemented security scanning in the IDE, during commits, and throughout the CI/CD pipeline.
+**Shift Left Security**: Moving security testing earlier in the development process to identify and resolve vulnerabilities before they reach production [4]. Our project implemented security scanning in the IDE, during commits, and throughout the CI/CD pipeline.
 
-**Automation**: Automated security testing, vulnerability scanning, and compliance checking reduce manual effort and human error. We implemented automated SAST, DAST, and dependency scanning tools.
+**Automation**: Automated security testing, vulnerability scanning, and compliance checking reduce manual effort and human error [4]. We implemented automated SAST, DAST, and dependency scanning tools.
 
-**Collaboration**: Breaking down silos between development, security, and operations teams. Our project demonstrated cross-functional collaboration with security champions in each development team.
+**Collaboration**: Breaking down silos between development, security, and operations teams [3]. Our project demonstrated cross-functional collaboration with security champions in each development team.
 
-**Continuous Monitoring**: Real-time security monitoring and incident response capabilities. We implemented comprehensive logging, monitoring, and alerting systems.
+**Continuous Monitoring**: Real-time security monitoring and incident response capabilities [2]. We implemented comprehensive logging, monitoring, and alerting systems.
 
 ---
 
@@ -230,7 +230,7 @@ Our implementation followed the DevSecOps lifecycle with security integrated at 
 - GDPR compliance for user data
 
 ### Threat Modeling
-We conducted comprehensive threat modeling using the STRIDE methodology:
+We conducted comprehensive threat modeling using the STRIDE methodology [8], [20]:
 
 **Spoofing Threats**
 - User identity spoofing through weak authentication
@@ -266,9 +266,9 @@ We conducted comprehensive threat modeling using the STRIDE methodology:
 
 **Development Tools**
 - **IDE**: Visual Studio Code with security extensions
-- **Language**: PHP 8.2 with security-focused configuration
+- **Language**: PHP 8.2 with security-focused configuration [13]
 - **Framework**: Custom secure framework implementation
-- **Database**: MySQL 8.0 with security hardening
+- **Database**: MySQL 8.0 with security hardening [14]
 
 **Security Testing Tools**
 - **Manual Code Review**: Security-focused peer review process
@@ -347,7 +347,7 @@ We utilized Jira for comprehensive project management with the following structu
 ### Secure Coding Practices
 
 **OWASP Secure Coding Guidelines Implementation**
-Our development team adhered to OWASP secure coding practices throughout the implementation:
+Our development team adhered to OWASP secure coding practices throughout the implementation [1], [9]:
 
 **Input Validation**
 - Implemented comprehensive input validation using PHP filter functions
@@ -446,10 +446,10 @@ Content-Security-Policy: default-src 'self';
 ```
 
 **Cryptographic Practices**
-- Strong password hashing using bcrypt
-- Secure random number generation
+- Strong password hashing using bcrypt [6]
+- Secure random number generation [5]
 - Proper entropy calculation for password strength
-- TLS encryption for data transmission
+- TLS encryption for data transmission [7]
 
 ### Version Control Security
 
@@ -704,7 +704,7 @@ All security-relevant events are logged in the database:
 ### Security Testing with OWASP ZAP
 
 **Automated Dynamic Application Security Testing (DAST)**
-Comprehensive security assessment using OWASP ZAP v2.16.1 on localhost:8000:
+Comprehensive security assessment using OWASP ZAP v2.16.1 on localhost:8000 [12]:
 
 ![OWASP ZAP Security Scan Results](screenshots/owasp-zap-results.png)
 
@@ -1056,16 +1056,55 @@ This project serves as a practical example of DevSecOps implementation, providin
 
 ## 15. References
 
-1. OWASP Foundation. (2021). OWASP Top Ten 2021. Retrieved from https://owasp.org/www-project-top-ten/
-2. National Institute of Standards and Technology. (2018). Framework for Improving Critical Infrastructure Cybersecurity. NIST Cybersecurity Framework.
-3. DevSecOps Foundation. (2020). DevSecOps Capability Maturity Model. Retrieved from https://www.devsecops.org/
-4. Humble, J., & Farley, D. (2010). Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation. Addison-Wesley Professional.
-5. McGraw, G. (2006). Software Security: Building Security In. Addison-Wesley Professional.
-6. Howard, M., & LeBlanc, D. (2003). Writing Secure Code. Microsoft Press.
-7. Anderson, R. (2020). Security Engineering: A Guide to Building Dependable Distributed Systems. Wiley.
-8. Shostack, A. (2014). Threat Modeling: Designing for Security. Wiley.
-9. SANS Institute. (2021). Secure Coding Practices Quick Reference Guide.
-10. Cloud Security Alliance. (2020). Security Guidance for Critical Areas of Focus in Cloud Computing.
+[1] OWASP Foundation, "OWASP Top Ten 2021," OWASP Foundation, 2021. [Online]. Available: https://owasp.org/www-project-top-ten/. [Accessed Sept. 25, 2025].
+
+[2] National Institute of Standards and Technology, "Framework for Improving Critical Infrastructure Cybersecurity Version 1.1," NIST, Gaithersburg, MD, USA, Tech. Rep. NIST Cybersecurity Framework, Apr. 2018.
+
+[3] DevSecOps Foundation, "DevSecOps Capability Maturity Model," DevSecOps Foundation, 2020. [Online]. Available: https://www.devsecops.org/. [Accessed Sept. 25, 2025].
+
+[4] J. Humble and D. Farley, Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation. Boston, MA, USA: Addison-Wesley Professional, 2010.
+
+[5] G. McGraw, Software Security: Building Security In. Boston, MA, USA: Addison-Wesley Professional, 2006.
+
+[6] M. Howard and D. LeBlanc, Writing Secure Code, 2nd ed. Redmond, WA, USA: Microsoft Press, 2003.
+
+[7] R. Anderson, Security Engineering: A Guide to Building Dependable Distributed Systems, 3rd ed. Indianapolis, IN, USA: Wiley, 2020.
+
+[8] A. Shostack, Threat Modeling: Designing for Security. Indianapolis, IN, USA: Wiley, 2014.
+
+[9] SANS Institute, "Secure Coding Practices Quick Reference Guide," SANS Institute, Tech. Rep., 2021.
+
+[10] Cloud Security Alliance, "Security Guidance for Critical Areas of Focus in Cloud Computing v4.0," Cloud Security Alliance, Tech. Rep., July 2020.
+
+[11] SonarSource, "SonarCloud Documentation," SonarSource S.A., 2025. [Online]. Available: https://docs.sonarcloud.io/. [Accessed Sept. 25, 2025].
+
+[12] OWASP ZAP Team, "OWASP Zed Attack Proxy Documentation," OWASP Foundation, 2025. [Online]. Available: https://www.zaproxy.org/docs/. [Accessed Sept. 25, 2025].
+
+[13] PHP Group, "PHP: Hypertext Preprocessor Documentation," PHP Group, 2025. [Online]. Available: https://www.php.net/docs.php. [Accessed Sept. 25, 2025].
+
+[14] Oracle Corporation, "MySQL 8.0 Reference Manual," Oracle Corporation, 2025. [Online]. Available: https://dev.mysql.com/doc/refman/8.0/en/. [Accessed Sept. 25, 2025].
+
+[15] GitHub Inc., "GitHub Actions Documentation," GitHub Inc., 2025. [Online]. Available: https://docs.github.com/en/actions. [Accessed Sept. 25, 2025].
+
+[16] Mozilla Developer Network, "Content Security Policy (CSP)," Mozilla Foundation, 2025. [Online]. Available: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP. [Accessed Sept. 25, 2025].
+
+[17] B. Sullivan and V. Liu, "Web Application Security: A Beginner's Guide," New York, NY, USA: McGraw-Hill Education, 2020.
+
+[18] NIST Special Publication 800-53, "Security and Privacy Controls for Federal Information Systems and Organizations," NIST, Gaithersburg, MD, USA, Tech. Rep. SP 800-53 Rev. 5, Sept. 2020.
+
+[19] ISO/IEC 27001:2013, "Information technology — Security techniques — Information security management systems — Requirements," International Organization for Standardization, Geneva, Switzerland, 2013.
+
+[20] STRIDE Threat Modeling Methodology, "The STRIDE Threat Model," Microsoft Corporation, 2009. [Online]. Available: https://docs.microsoft.com/en-us/previous-versions/commerce-server/ee823878(v=cs.20). [Accessed Sept. 25, 2025].
+
+[21] XAMPP Team, "XAMPP Apache + MariaDB + PHP + Perl," Apache Friends, 2025. [Online]. Available: https://www.apachefriends.org/index.html. [Accessed Sept. 25, 2025].
+
+[22] W3C, "Web Content Accessibility Guidelines (WCAG) 2.1," World Wide Web Consortium, June 2018. [Online]. Available: https://www.w3.org/WAI/WCAG21/. [Accessed Sept. 25, 2025].
+
+[23] GDPR.eu, "General Data Protection Regulation (GDPR) Compliance Guidelines," GDPR.eu, 2025. [Online]. Available: https://gdpr.eu/. [Accessed Sept. 25, 2025].
+
+[24] Apache Software Foundation, "Apache HTTP Server Project," Apache Software Foundation, 2025. [Online]. Available: https://httpd.apache.org/. [Accessed Sept. 25, 2025].
+
+[25] Git SCM, "Git Documentation," Software Freedom Conservancy, 2025. [Online]. Available: https://git-scm.com/doc. [Accessed Sept. 25, 2025].
 
 ---
 
