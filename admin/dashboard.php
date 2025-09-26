@@ -471,6 +471,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             const message = document.createElement('div');
             message.className = `message admin-message ${type}`;
             message.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i> ${text}`;
+            message.style.display = 'block';
             
             const container = document.querySelector('.container');
             container.insertBefore(message, container.firstChild);

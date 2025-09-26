@@ -13,6 +13,7 @@ window.openAuthModal = function(type = 'login') {
     
     // Prevent background scrolling
     document.body.style.overflow = 'hidden';
+    modal.classList.remove('modal-hidden');
     modal.style.display = 'flex';
     
     // Show the appropriate form
@@ -22,6 +23,7 @@ window.openAuthModal = function(type = 'login') {
 window.closeAuthModal = function() {
     const modal = document.getElementById('authModal');
     if (modal) {
+        modal.classList.add('modal-hidden');
         modal.style.display = 'none';
         document.body.style.overflow = '';
     }
@@ -31,6 +33,7 @@ window.closeAuthModal = function() {
 window.showTab = function(tabName) {
     // Hide all forms
     document.querySelectorAll('.auth-form').forEach(form => {
+        form.classList.add('form-hidden');
         form.style.display = 'none';
         form.classList.remove('active');
     });
@@ -38,6 +41,7 @@ window.showTab = function(tabName) {
     // Show the target form
     const targetForm = document.getElementById(tabName + 'Form');
     if (targetForm) {
+        targetForm.classList.remove('form-hidden');
         targetForm.style.display = 'block';
         targetForm.classList.add('active');
     }
@@ -149,11 +153,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function showMessage(text, type) {
         const messageDiv = document.getElementById('message');
         messageDiv.innerHTML = `<i class="fas fa-info-circle"></i> ${text}`;
-        messageDiv.className = `message ${type}`;
+        messageDiv.className = `message ${type} modal-message-bottom`;
+        messageDiv.classList.remove('message-hidden');
         messageDiv.style.display = 'block';
         
         // Auto-hide after 5 seconds
         setTimeout(() => {
+            messageDiv.classList.add('message-hidden');
             messageDiv.style.display = 'none';
         }, 5000);
         

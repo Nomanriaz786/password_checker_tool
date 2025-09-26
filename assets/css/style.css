@@ -1424,6 +1424,11 @@ body {
     margin-top: 2rem !important;
 }
 
+.admin-message {
+    margin-bottom: 1rem !important;
+    display: block !important;
+}
+
 .modal .auth-form {
     margin-bottom: 0;
     padding: 40px 30px 30px;
