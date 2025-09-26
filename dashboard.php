@@ -152,9 +152,9 @@ try {
                 <label for="password_input">Password to Check:</label>
                 <input type="password" 
                        id="password_input" 
+                       class="password-input-monospace"
                        placeholder="Enter password here..." 
-                       data-strength="true"
-                       style="font-family: monospace;">
+                       data-strength="true">
             </div>
 
             <div class="form-group">
@@ -548,7 +548,7 @@ try {
     </style>
 
     <!-- 2FA Setup Modal -->
-    <div id="otpModal" class="modal" style="display: none;">
+    <div id="otpModal" class="modal modal-hidden">
         <div class="modal-content">
             <div class="modal-header">
                 <h3><i class="fas fa-shield-alt"></i> Setup Two-Factor Authentication</h3>
@@ -569,7 +569,7 @@ try {
     </div>
 
     <!-- 2FA Disable Modal -->
-    <div id="disable2faModal" class="modal" style="display: none;">
+    <div id="disable2faModal" class="modal modal-hidden">
         <div class="modal-content">
             <div class="modal-header">
                 <h3><i class="fas fa-exclamation-triangle"></i> Disable Two-Factor Authentication</h3>

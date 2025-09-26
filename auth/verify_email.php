@@ -338,7 +338,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="hidden" name="action" value="verify">
                     
                     <div class="form-group">
-                        <label for="otp" style="color: #666; font-weight: 500; margin-bottom: 1rem;">Enter Verification Code:</label>
+                        <label for="otp" class="otp-label">Enter Verification Code:</label>
                         <input type="text" 
                                id="otp" 
                                name="otp" 
@@ -350,7 +350,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                required>
                     </div>
                     
-                    <div class="form-group" style="margin-top: 2rem;">
+                    <div class="form-group verification-button-group">
                         <button type="submit" class="btn verify-btn mb-2">
                             <i class="fas fa-check"></i> Verify Email
                         </button>
@@ -359,7 +359,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </a>
                     </div>
                     
-                    <div id="message" class="message" style="display: none;"></div>
+                    <div id="message" class="message message-hidden"></div>
                 </form>
             
             <div class="form-footer">

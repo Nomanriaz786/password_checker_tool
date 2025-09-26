@@ -142,7 +142,7 @@ function completeLogin($user, $ip_address) {
                     <a href="../index.php" class="btn btn-secondary">Cancel</a>
                 </div>
                 
-                <div id="message" class="message" style="display: none;"></div>
+                <div id="message" class="message message-hidden"></div>
             </form>
             
             <div class="form-footer">
